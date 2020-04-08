@@ -24,7 +24,7 @@ public class MemberDAO {
 		
 		Connection con=null;
 		try {
-			DriverManager.getConnection(url, user, password);
+			con=DriverManager.getConnection(url, user, password);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
