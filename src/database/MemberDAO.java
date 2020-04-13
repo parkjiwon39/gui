@@ -52,5 +52,60 @@ public class MemberDAO {
 		}
 		return vecList;
 	}
+	public int insert(MemberVO vo) {
+		String sql="insert into memberTBL values(member_seq.nextval,?,?,?)";
+		int result=0;
+		try (Connection con = getConnection();
+			PreparedStatement pstmt=con.prepareStatement(sql)){
+			
+			pstmt.setString(1, vo.getName());
+			pstmt.setInt(2, vo.getAge());
+			pstmt.setString(3, vo.getGender());
+			
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	//no에 해당하는 레코드 가져오기
+	public MemberVO getRow(int no) {
+		String sql="select * from memberTBL where no=?";
+		MemberVO vo=null;
+		try(Connection con=getConnection();
+			PreparedStatement pstmt=con.prepareStatement(sql)){
+			pstmt.setInt(1, no);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				vo=new MemberVO();
+				vo.setNo(rs.getInt(1));
+				vo.setName(rs.getString("name"));
+				vo.setAge(rs.getInt(3));
+				vo.setGender(rs.getString(4));
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return vo;
+	}
+	
+	//no 값을 이용해서 회원 삭제하기
+	// delete from memberTBL where no=?
+	public int remove(int no) {
+		int result=0;
+		String sql="delete from memberTBL where no=?";
+		try(Connection con=getConnection();
+			PreparedStatement pstmt=con.prepareStatement(sql)) {
+			
+			pstmt.setInt(1, no);
+			result=pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 
 }
