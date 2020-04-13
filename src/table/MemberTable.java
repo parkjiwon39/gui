@@ -250,8 +250,9 @@ public class MemberTable extends JFrame implements ActionListener{
 			}else {
 				JOptionPane.showMessageDialog(this, "입력 실패");
 			}
+		}else if(e.getActionCommend().equals("수정")){
+			System.out.println("원격저장소 수정");
 		}
-		
 	}
 
 }
